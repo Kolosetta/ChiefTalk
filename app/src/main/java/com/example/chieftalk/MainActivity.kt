@@ -6,6 +6,8 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import com.example.chieftalk.databinding.ActivityMainBinding
+import com.example.chieftalk.ui.ChatsFragment
+import com.example.chieftalk.ui.SettingsFragment
 import com.mikepenz.materialdrawer.AccountHeader
 import com.mikepenz.materialdrawer.AccountHeaderBuilder
 import com.mikepenz.materialdrawer.Drawer
@@ -40,6 +42,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun initFunc(){
         setSupportActionBar(toolBar)
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.main_container, ChatsFragment())
+            .commit()
         createHeader()
         createDrawer()
     }
@@ -114,6 +119,12 @@ class MainActivity : AppCompatActivity() {
                     position: Int,
                     drawerItem: IDrawerItem<*>
                 ): Boolean {
+                    when(position) {
+                        7 -> supportFragmentManager.beginTransaction()
+                            .replace(R.id.main_container, SettingsFragment.newInstance())
+                            .addToBackStack(null)
+                            .commit()
+                    }
                     Toast.makeText(this@MainActivity, position.toString(), Toast.LENGTH_SHORT).show()
                     return false
                 }
