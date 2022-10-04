@@ -1,4 +1,4 @@
-package com.example.chieftalk.ui
+package com.example.chieftalk.ui.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -12,10 +12,6 @@ import com.example.chieftalk.databinding.FragmentChatsBinding
 class ChatsFragment : Fragment() {
 
     private lateinit var binding: FragmentChatsBinding
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
