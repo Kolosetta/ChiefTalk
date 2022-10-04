@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="settings_user_photo_width">56dp</dimen>
+    <dimen name="settings_user_photo_height">56dp</dimen>
+    <dimen name="horizontal_margin">16dp</dimen>
+    <dimen name="normal_text">16sp</dimen>
+    <dimen name="vertical_margin">10dp</dimen>
+    <dimen name="small_text">14sp</dimen>
+    <dimen name="vertical_large_margin">16dp</dimen>
+</resources>
