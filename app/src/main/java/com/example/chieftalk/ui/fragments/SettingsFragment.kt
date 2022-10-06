@@ -1,10 +1,9 @@
 package com.example.chieftalk.ui.fragments
 
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import com.example.chieftalk.R
 import com.example.chieftalk.databinding.FragmentSettingsBinding
 
 
@@ -18,6 +17,16 @@ class SettingsFragment : Fragment() {
     ): View {
         binding = FragmentSettingsBinding.inflate(inflater, container, false)
         return binding.root
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        requireActivity().menuInflater.inflate(R.menu.setting_action_menu, menu)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setHasOptionsMenu(true)
     }
 
     companion object {

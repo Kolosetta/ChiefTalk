@@ -12,6 +12,7 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" >?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+        <item name="popupTheme">@style/actionMenu</item>
         <!-- MaterialDrawer specific values -->
         <item name="material_drawer_background">@color/material_drawer_background</item>
         <item name="material_drawer_primary_text">@color/material_drawer_primary_text</item>
@@ -31,5 +32,9 @@
         //TODO сделать темную тему
     </style>
 
-
+    //Тема для OptionMenu в Settings
+    <style name="actionMenu" parent="Theme.AppCompat.Light">
+        <item name="background">@color/white</item>
+        <item name="actionMenuTextColor">@color/black</item>
+    </style>
 </resources>
