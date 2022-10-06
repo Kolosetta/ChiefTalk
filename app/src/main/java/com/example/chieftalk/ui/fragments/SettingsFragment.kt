@@ -9,7 +9,7 @@ import com.example.chieftalk.databinding.FragmentSettingsBinding
 
 
 class SettingsFragment : Fragment() {
-
+    //TODO добавить анимации на кнопки редаткирования
     private lateinit var binding: FragmentSettingsBinding
 
     override fun onCreateView(
