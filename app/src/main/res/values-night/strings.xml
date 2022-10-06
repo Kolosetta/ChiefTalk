@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="settings_text_account">Аккаунт</string>
+    <string name="settings_default_number">+79777777777</string>
+    <string name="settings_label_change_number">Нажмите, чтобы изменить номер</string>
+    <string name="settings_default_login">Mr. Username</string>
+    <string name="settings_label_login">Имя пользователя</string>
+    <string name="settings_default_bio">О себе</string>
+    <string name="settings_label_bio">Напишите немного о себе</string>
 </resources>
