@@ -12,5 +12,6 @@
     <dimen name="settings_btn_change_photo_width">46dp</dimen>
     <dimen name="settings_btn_change_photo_height">46dp</dimen>
     <dimen name="ripple_effect_radius">4dp</dimen>
+    <dimen name="app_padding">5dp</dimen>
 
 </resources>

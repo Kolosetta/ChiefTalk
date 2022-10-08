@@ -9,4 +9,5 @@
     <string name="settings_label_bio">Напишите немного о себе</string>
     <string name="settings_menu_edit">Изменить имя</string>
     <string name="settings_menu_exit">Выход</string>
+    <string name="next">next</string>
 </resources>
