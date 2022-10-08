@@ -10,11 +10,12 @@
 
     <EditText
         android:id="@+id/register_input_phone"
-        android:text="@string/hello_blank_fragment"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        style="@style/edit_register_text" />
+        style="@style/edit_register_text"
+        android:hint="Номер телефона"
+        android:textColorHint="@color/black"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/register_btn_next"
