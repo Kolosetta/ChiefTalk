@@ -7,6 +7,8 @@ import com.example.chieftalk.activities.RegisterActivity
 import com.example.chieftalk.databinding.ActivityMainBinding
 import com.example.chieftalk.ui.objects.AppDrawer
 import com.example.chieftalk.utilits.replaceActivity
+import com.google.firebase.auth.FirebaseAuth
+import com.example.chieftalk.utilits.AUTH
 
 class MainActivity : AppCompatActivity() {
 
@@ -29,10 +31,11 @@ class MainActivity : AppCompatActivity() {
     private fun initFields(){
         toolBar = binding.mainToolbar
         appDrawer = AppDrawer(this, toolBar)
+        AUTH = FirebaseAuth.getInstance()
     }
 
     private fun initFunc(){
-        if(true){
+        if(AUTH.currentUser!=null){
             setSupportActionBar(toolBar)
             appDrawer.create()
         }
