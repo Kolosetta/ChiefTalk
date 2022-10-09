@@ -1,14 +1,13 @@
 package com.example.chieftalk.ui.fragments
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import com.example.chieftalk.databinding.FragmentEnterCodeBinding
+import com.example.chieftalk.utilits.AppTextWatcher
+import com.example.chieftalk.utilits.showToast
 
 
 class EnterCodeFragment : Fragment() {
@@ -25,23 +24,15 @@ class EnterCodeFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        binding.registerInputPhone.addTextChangedListener(object:TextWatcher{
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-
-            override fun afterTextChanged(p0: Editable?) {
-                val string = binding.registerInputPhone.text.toString()
-                if (string.length >= 6){
-                    verifyCode()
-                }
+        binding.registerInputCode.addTextChangedListener(AppTextWatcher{
+            if (it.toString().length >= 6){
+                verifyCode()
             }
-
         })
     }
 
     private fun verifyCode() {
-        Toast.makeText(requireContext(), "Окей", Toast.LENGTH_SHORT).show()
+        showToast("Окей")
     }
 
     companion object {

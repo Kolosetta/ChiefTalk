@@ -5,9 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import com.example.chieftalk.R
 import com.example.chieftalk.databinding.FragmentEnterPhoneBinding
+import com.example.chieftalk.utilits.showToast
 
 
 class EnterPhoneFragment : Fragment() {
@@ -31,9 +31,7 @@ class EnterPhoneFragment : Fragment() {
 
     private fun sendCode() {
         if(binding.registerInputPhone.text.toString().isEmpty()){
-            Toast.makeText(requireContext(),
-                getString(R.string.register_toast_enter_phone),
-                Toast.LENGTH_SHORT).show()
+            showToast(getString(R.string.register_toast_enter_phone))
         }
         else {
             requireActivity().supportFragmentManager.beginTransaction()

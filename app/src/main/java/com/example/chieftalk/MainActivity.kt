@@ -1,12 +1,12 @@
 package com.example.chieftalk
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.appcompat.widget.Toolbar
 import com.example.chieftalk.activities.RegisterActivity
 import com.example.chieftalk.databinding.ActivityMainBinding
 import com.example.chieftalk.ui.objects.AppDrawer
+import com.example.chieftalk.utilits.replaceActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -32,13 +32,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initFunc(){
-        if(false){
+        if(true){
             setSupportActionBar(toolBar)
             appDrawer.create()
         }
         else{
-            val intent = Intent(this, RegisterActivity::class.java)
-            startActivity(intent)
+            replaceActivity(RegisterActivity::class.java)
         }
 
     }
