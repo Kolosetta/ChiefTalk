@@ -46,7 +46,7 @@
 
 
     <EditText
-        android:id="@+id/register_input_phone"
+        android:id="@+id/register_input_code"
         style="@style/edit_register_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
