@@ -13,7 +13,6 @@ import com.example.chieftalk.utilits.AUTH
 import com.example.chieftalk.utilits.replaceActivity
 import com.example.chieftalk.utilits.showToast
 import com.google.firebase.FirebaseException
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthProvider
 import java.util.concurrent.TimeUnit

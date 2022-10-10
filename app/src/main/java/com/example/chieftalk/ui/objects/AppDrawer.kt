@@ -4,6 +4,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.drawerlayout.widget.DrawerLayout
 import com.example.chieftalk.R
 import com.example.chieftalk.ui.fragments.SettingsFragment
 import com.mikepenz.materialdrawer.AccountHeader
@@ -117,5 +118,23 @@ class AppDrawer(private val activity: AppCompatActivity, private val toolBar: To
                 ProfileDrawerItem().withName("Andrew Loko")
                     .withEmail("+79263766987")
             ).build()
+    }
+
+    fun disableDrawer(){
+        drawer.actionBarDrawerToggle?.isDrawerIndicatorEnabled = false
+        drawer.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+        activity.supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        toolBar.setNavigationOnClickListener {
+            activity.supportFragmentManager.popBackStack()
+        }
+    }
+
+    fun enableDrawer(){
+        activity.supportActionBar?.setDisplayHomeAsUpEnabled(false)
+        drawer.actionBarDrawerToggle?.isDrawerIndicatorEnabled = true
+        drawer.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
+        toolBar.setNavigationOnClickListener {
+            drawer.openDrawer()
+        }
     }
 }
