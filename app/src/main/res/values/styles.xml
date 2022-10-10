@@ -49,6 +49,7 @@
         <item name="android:textSize">@dimen/normal_text</item>
         <item name="android:layout_margin">@dimen/horizontal_margin</item>
         <item name="android:padding">@dimen/app_padding</item>
+        <item name="android:textColorHint">@color/purple_200</item>
         <item name="android:maxLines">1</item>
         <item name="android:inputType">phone</item>
     </style>

@@ -6,6 +6,7 @@ import androidx.appcompat.widget.Toolbar
 import com.example.chieftalk.R
 import com.example.chieftalk.databinding.ActivityRegisterBinding
 import com.example.chieftalk.ui.fragments.EnterPhoneFragment
+import com.example.chieftalk.utilits.initFireBase
 
 class RegisterActivity : AppCompatActivity() {
 
@@ -16,6 +17,7 @@ class RegisterActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        initFireBase()
     }
 
     override fun onStart() {

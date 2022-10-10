@@ -9,6 +9,7 @@ import com.example.chieftalk.ui.objects.AppDrawer
 import com.example.chieftalk.utilits.replaceActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.example.chieftalk.utilits.AUTH
+import com.example.chieftalk.utilits.initFireBase
 
 class MainActivity : AppCompatActivity() {
 
@@ -20,6 +21,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        initFireBase()
     }
 
     override fun onStart() {
@@ -31,7 +33,6 @@ class MainActivity : AppCompatActivity() {
     private fun initFields(){
         toolBar = binding.mainToolbar
         appDrawer = AppDrawer(this, toolBar)
-        AUTH = FirebaseAuth.getInstance()
     }
 
     private fun initFunc(){
