@@ -13,8 +13,8 @@ data class User(
     var fullName: String = "",
     @PropertyName("status")
     var status: String = "",
-    @PropertyName("phonenumber")
-    var phoneNumber: String = "",
+    @PropertyName("phone")
+    var phone: String = "",
     @PropertyName("photoUrl")
     var photoUrl: String = ""
 )

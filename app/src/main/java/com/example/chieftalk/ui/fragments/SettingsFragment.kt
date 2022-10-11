@@ -1,6 +1,6 @@
 package com.example.chieftalk.ui.fragments
 
-import android.app.Activity
+import android.content.Context
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
@@ -9,6 +9,7 @@ import com.example.chieftalk.R
 import com.example.chieftalk.activities.RegisterActivity
 import com.example.chieftalk.databinding.FragmentSettingsBinding
 import com.example.chieftalk.utilits.AUTH
+import com.example.chieftalk.utilits.USER
 import com.example.chieftalk.utilits.replaceActivity
 
 
@@ -17,10 +18,10 @@ class SettingsFragment : Fragment() {
     private lateinit var binding: FragmentSettingsBinding
     private lateinit var mainActivity: MainActivity
 
-    override fun onAttach(activity: Activity) {
-        super.onAttach(activity)
-        if(activity is MainActivity){
-            mainActivity = activity
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if(context is MainActivity){
+            mainActivity = context
         }
     }
 
@@ -32,7 +33,7 @@ class SettingsFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         mainActivity.appDrawer.disableDrawer()
-
+        initFields()
     }
 
     override fun onStop() {
@@ -65,6 +66,14 @@ class SettingsFragment : Fragment() {
             }
         }
         return true
+    }
+
+    private fun initFields() {
+        binding.settingsBio.text = USER.bio
+        binding.settingsFullName.text = USER.fullName
+        binding.settingsPhoneNumber.text = USER.phone
+        binding.settingsStatus.text = USER.status
+        binding.settingsUsername.text = USER.userName
     }
 
     companion object {

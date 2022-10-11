@@ -60,7 +60,7 @@ class ChangeNameFragment : Fragment() {
         if(name.isEmpty()){
             showToast(getString(R.string.settings_toast_name_is_empty))
         } else {
-            val fullname = "$name|$surname".trim()
+            val fullname = "$name $surname".trim()
             REF_DATABASE_ROOT.child(NODE_USERS).child(UID).child(CHILD_FULLNAME)
                 .setValue(fullname)
                 .addOnCompleteListener {
