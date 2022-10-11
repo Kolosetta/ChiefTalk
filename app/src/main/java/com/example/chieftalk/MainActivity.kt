@@ -5,11 +5,12 @@ import android.os.Bundle
 import androidx.appcompat.widget.Toolbar
 import com.example.chieftalk.activities.RegisterActivity
 import com.example.chieftalk.databinding.ActivityMainBinding
+import com.example.chieftalk.models.User
 import com.example.chieftalk.ui.objects.AppDrawer
-import com.example.chieftalk.utilits.replaceActivity
-import com.google.firebase.auth.FirebaseAuth
-import com.example.chieftalk.utilits.AUTH
-import com.example.chieftalk.utilits.initFireBase
+import com.example.chieftalk.utilits.*
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
 
 class MainActivity : AppCompatActivity() {
 
@@ -33,8 +34,10 @@ class MainActivity : AppCompatActivity() {
     private fun initFields(){
         toolBar = binding.mainToolbar
         appDrawer = AppDrawer(this, toolBar)
+        initUser()
     }
 
+    //TODO("Подумать над выносом проверки авторизации в Application")
     private fun initFunc(){
         if(AUTH.currentUser!=null){
             setSupportActionBar(toolBar)
@@ -44,5 +47,17 @@ class MainActivity : AppCompatActivity() {
             replaceActivity(RegisterActivity::class.java)
         }
 
+    }
+
+    private fun initUser() {
+        REF_DATABASE_ROOT.child(NODE_USERS).child(UID)
+            .addListenerForSingleValueEvent(object : ValueEventListener{
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    snapshot.getValue(User::class.java)?.let {
+                        USER = it
+                    }
+                }
+                override fun onCancelled(error: DatabaseError) {}
+            })
     }
 }
