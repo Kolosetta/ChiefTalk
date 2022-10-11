@@ -13,7 +13,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        style="@style/edit_register_text"
+        style="@style/edit_text"
         android:hint="Номер телефона"
         android:textColorHint="@color/black"/>
 

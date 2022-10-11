@@ -57,6 +57,12 @@ class SettingsFragment : Fragment() {
                 AUTH.signOut()
                 mainActivity.replaceActivity(RegisterActivity::class.java)
             }
+            R.id.settings_menu_edit -> {
+                mainActivity.supportFragmentManager.beginTransaction()
+                    .replace(R.id.main_container, ChangeNameFragment.newInstance())
+                    .addToBackStack(null)
+                    .commit()
+            }
         }
         return true
     }
