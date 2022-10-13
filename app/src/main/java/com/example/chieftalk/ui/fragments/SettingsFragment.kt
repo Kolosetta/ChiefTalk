@@ -60,7 +60,10 @@ class SettingsFragment : Fragment() {
             }
             R.id.settings_menu_edit -> {
                 mainActivity.supportFragmentManager.beginTransaction()
-                    .replace(R.id.main_container, ChangeNameFragment.newInstance())
+                    .replace(R.id.main_container, ChangeNameFragment.newInstance(
+                        USER.fullName.substringBefore(" "),
+                        USER.fullName.substringAfter( " ")
+                    ))
                     .addToBackStack(null)
                     .commit()
             }

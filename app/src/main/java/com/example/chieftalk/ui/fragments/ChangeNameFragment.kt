@@ -1,6 +1,6 @@
 package com.example.chieftalk.ui.fragments
 
-import android.app.Activity
+import android.content.Context
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
@@ -13,12 +13,22 @@ class ChangeNameFragment : Fragment() {
 
     private lateinit var binding: FragmentChangeNameBinding
     private lateinit var mainActivity: MainActivity
+    private var name: String? = null
+    private var surname: String? = null
 
-    override fun onAttach(activity: Activity) {
-        super.onAttach(activity)
-        if(activity is MainActivity){
-            mainActivity = activity
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is MainActivity) {
+            mainActivity = context
         }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+         arguments?.let {
+             name = it.getString(NAME)
+             surname = it.getString(SURNAME)
+       }
     }
 
     override fun onCreateView(inflater: LayoutInflater, cont: ViewGroup?, bundle: Bundle?): View {
@@ -28,18 +38,14 @@ class ChangeNameFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.settingsInputName.setText(USER.fullName.substringBefore(" "))
-        binding.settingsInputSurname.setText(USER.fullName.substringAfter(" "))
+        binding.settingsInputName.setText(name)
+        binding.settingsInputSurname.setText(surname)
+        setHasOptionsMenu(true)
     }
 
     override fun onStart() {
         super.onStart()
         mainActivity.appDrawer.disableDrawer()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        setHasOptionsMenu(true)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -48,7 +54,7 @@ class ChangeNameFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
+        when (item.itemId) {
             R.id.settings_confirm_change -> changeName()
         }
         return true
@@ -57,14 +63,14 @@ class ChangeNameFragment : Fragment() {
     private fun changeName() {
         val name = binding.settingsInputName.text.toString()
         val surname = binding.settingsInputSurname.text.toString()
-        if(name.isEmpty()){
+        if (name.isEmpty()) {
             showToast(getString(R.string.settings_toast_name_is_empty))
         } else {
             val fullname = "$name $surname".trim()
             REF_DATABASE_ROOT.child(NODE_USERS).child(UID).child(CHILD_FULLNAME)
                 .setValue(fullname)
                 .addOnCompleteListener {
-                    if(it.isSuccessful){
+                    if (it.isSuccessful) {
                         showToast(getString(R.string.toast_data_updated))
                         USER.fullName = fullname
                         requireActivity().supportFragmentManager.popBackStack()
@@ -74,7 +80,16 @@ class ChangeNameFragment : Fragment() {
     }
 
     companion object {
+        private const val NAME = "name"
+        private const val SURNAME = "surname"
+
         @JvmStatic
-        fun newInstance() = ChangeNameFragment()
+        fun newInstance(name: String, surname: String) =
+            ChangeNameFragment().apply {
+                arguments = Bundle().apply {
+                    putString(NAME, name)
+                    putString(SURNAME, surname)
+                }
+            }
     }
 }
