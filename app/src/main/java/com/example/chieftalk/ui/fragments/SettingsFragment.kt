@@ -77,6 +77,12 @@ class SettingsFragment : Fragment() {
         binding.settingsPhoneNumber.text = USER.phone
         binding.settingsStatus.text = USER.status
         binding.settingsUsername.text = USER.userName
+        binding.settingsBtnChangeUsername.setOnClickListener {
+            mainActivity.supportFragmentManager.beginTransaction()
+                .replace(R.id.main_container, ChangeUserNameFragment.newInstance(USER.userName))
+                .addToBackStack(null)
+                .commit()
+        }
     }
 
     companion object {

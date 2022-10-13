@@ -20,4 +20,7 @@
     <string name="hint_input_surname">Фамилия</string>
     <string name="settings_toast_name_is_empty">Имя не должно быть пустым</string>
     <string name="toast_data_updated">Данные успешно обновлены</string>
+    <string name="settings_hint_input_username">Username</string>
+    <string name="settings_change_username_required">Необходимо ввести новый логин</string>
+    <string name="settings_change_username_username_exists">Поьзователь с таким логином уже существует</string>
 </resources>
