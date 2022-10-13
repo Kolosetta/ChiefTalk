@@ -25,4 +25,5 @@
     <string name="settings_hint_input_username">Username</string>
     <string name="settings_change_username_required">Необходимо ввести новый логин</string>
     <string name="settings_change_username_username_exists">Поьзователь с таким логином уже существует</string>
+    <string name="settings_input_bio">bio</string>
 </resources>

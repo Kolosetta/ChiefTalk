@@ -83,6 +83,12 @@ class SettingsFragment : Fragment() {
                 .addToBackStack(null)
                 .commit()
         }
+        binding.settingsBtnChangeBio.setOnClickListener {
+            mainActivity.supportFragmentManager.beginTransaction()
+                .replace(R.id.main_container, ChangeBioFragment.newInstance(USER.bio))
+                .addToBackStack(null)
+                .commit()
+        }
     }
 
     companion object {
