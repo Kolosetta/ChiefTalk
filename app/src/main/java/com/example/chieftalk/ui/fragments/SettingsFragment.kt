@@ -92,11 +92,11 @@ class SettingsFragment : Fragment() {
                 .commit()
         }
         binding.settingsChangeAvatar.setOnClickListener {
-            changeUserAvatar()
+            startChangeUserAvatarActivity()
         }
     }
 
-    private fun changeUserAvatar() {
+    private fun startChangeUserAvatarActivity() {
         CropImage.activity()
             .setAspectRatio(1, 1)
             .setRequestedSize(600, 600)

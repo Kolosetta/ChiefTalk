@@ -51,7 +51,6 @@ class MainActivity : AppCompatActivity() {
         } else {
             replaceActivity(RegisterActivity::class.java)
         }
-
     }
 
     private fun initUser() {
@@ -66,18 +65,35 @@ class MainActivity : AppCompatActivity() {
             })
     }
 
+    //Вызывается как результат CropPhoto Activity
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE
             && resultCode == Activity.RESULT_OK
             && data != null
         ) {
-            val uri = CropImage.getActivityResult(data).uri
-            val path = REF_STORAGE_ROOT.child(FOLDER_PROFILE_IMAGE).child(UID)
-            path.putFile(uri).addOnCompleteListener {
-                if (it.isSuccessful) {
-                    Toast.makeText(this, getString(R.string.toast_data_updated), Toast.LENGTH_SHORT)
-                        .show()
+            uploadUserPhoto(data)
+        }
+    }
+
+    private fun uploadUserPhoto(data: Intent?){
+        val uri = CropImage.getActivityResult(data).uri
+        val path = REF_STORAGE_ROOT.child(FOLDER_PROFILE_IMAGE).child(UID)
+        path.putFile(uri).addOnCompleteListener {
+            if (it.isSuccessful) {
+                path.downloadUrl.addOnCompleteListener { task ->
+                    if(task.isSuccessful){
+                        val photoUrl = task.result.toString()
+                        REF_DATABASE_ROOT.child(NODE_USERS).child(UID).child(CHILD_PHOTO_URL)
+                            .setValue(photoUrl).addOnCompleteListener { task2 ->
+                                if(task2.isSuccessful){
+                                    Toast.makeText(this,
+                                        getString(R.string.toast_data_updated),
+                                        Toast.LENGTH_SHORT).show()
+                                    USER.photoUrl = photoUrl
+                                }
+                            }
+                    }
                 }
             }
         }
