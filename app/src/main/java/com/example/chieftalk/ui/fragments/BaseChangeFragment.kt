@@ -24,6 +24,11 @@ open class BaseChangeFragment : Fragment() {
         mainActivity.appDrawer.disableDrawer()
     }
 
+    override fun onStop() {
+        super.onStop()
+        mainActivity.hideKeyboard()
+    }
+
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         mainActivity.menuInflater.inflate(R.menu.settings_menu_confirm, menu)

@@ -8,9 +8,9 @@ import com.example.chieftalk.MainActivity
 import com.example.chieftalk.R
 import com.example.chieftalk.activities.RegisterActivity
 import com.example.chieftalk.databinding.FragmentSettingsBinding
-import com.example.chieftalk.utilits.AUTH
-import com.example.chieftalk.utilits.USER
-import com.example.chieftalk.utilits.replaceActivity
+import com.example.chieftalk.utilits.*
+import com.theartofdev.edmodo.cropper.CropImage
+import com.theartofdev.edmodo.cropper.CropImageView
 
 
 class SettingsFragment : Fragment() {
@@ -20,7 +20,7 @@ class SettingsFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if(context is MainActivity){
+        if (context is MainActivity) {
             mainActivity = context
         }
     }
@@ -53,17 +53,19 @@ class SettingsFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
+        when (item.itemId) {
             R.id.settings_menu_exit -> {
                 AUTH.signOut()
                 mainActivity.replaceActivity(RegisterActivity::class.java)
             }
             R.id.settings_menu_edit -> {
                 mainActivity.supportFragmentManager.beginTransaction()
-                    .replace(R.id.main_container, ChangeNameFragment.newInstance(
-                        USER.fullName.substringBefore(" "),
-                        USER.fullName.substringAfter( " ")
-                    ))
+                    .replace(
+                        R.id.main_container, ChangeNameFragment.newInstance(
+                            USER.fullName.substringBefore(" "),
+                            USER.fullName.substringAfter(" ")
+                        )
+                    )
                     .addToBackStack(null)
                     .commit()
             }
@@ -89,7 +91,19 @@ class SettingsFragment : Fragment() {
                 .addToBackStack(null)
                 .commit()
         }
+        binding.settingsChangeAvatar.setOnClickListener {
+            changeUserAvatar()
+        }
     }
+
+    private fun changeUserAvatar() {
+        CropImage.activity()
+            .setAspectRatio(1, 1)
+            .setRequestedSize(600, 600)
+            .setCropShape(CropImageView.CropShape.OVAL)
+            .start(mainActivity)
+    }
+
 
     companion object {
         fun newInstance() = SettingsFragment()
