@@ -28,38 +28,30 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         initFireBase()
-        initFields()
-        initFunc()
+        initUser{
+            initFields()
+            initFunc()
+        }
     }
 
 
     private fun initFields() {
         toolBar = binding.mainToolbar
         appDrawer = AppDrawer(this, toolBar)
-        initUser()
     }
 
     //TODO("Подумать над выносом проверки авторизации в Application")
     private fun initFunc() {
         if (AUTH.currentUser != null) {
             setSupportActionBar(toolBar)
+            println(USER.fullName)
             appDrawer.create()
         } else {
             replaceActivity(RegisterActivity::class.java)
         }
     }
 
-    private fun initUser() {
-        REF_DATABASE_ROOT.child(NODE_USERS).child(UID)
-            .addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    snapshot.getValue(User::class.java)?.let {
-                        USER = it
-                    }
-                }
-                override fun onCancelled(error: DatabaseError) {}
-            })
-    }
+
 
     //Вызывается как результат CropPhoto Activity
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

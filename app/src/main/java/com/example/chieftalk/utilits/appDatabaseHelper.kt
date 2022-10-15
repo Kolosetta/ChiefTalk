@@ -4,8 +4,7 @@ import android.net.Uri
 import android.util.Log
 import com.example.chieftalk.models.User
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 
@@ -33,6 +32,24 @@ fun initFireBase() {
     REF_STORAGE_ROOT = FirebaseStorage.getInstance().reference
     USER = User()
     UID = AUTH.currentUser?.uid.toString()
+}
+
+inline fun initUser(crossinline func: () -> Unit) {
+    REF_DATABASE_ROOT.child(NODE_USERS).child(UID)
+        .addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                snapshot.getValue(User::class.java)?.let {
+                    USER = it
+                    if(USER.userName.isEmpty()){
+                        USER.userName = UID
+                    }
+                    //TODO временно решение, чтобы юзер точно инициалиировался раньше всего остального
+                    //Заменить потом корутинами
+                    func()
+                }
+            }
+            override fun onCancelled(error: DatabaseError) {}
+        })
 }
 
 inline fun putImageToStorage(uri: Uri, path: StorageReference, crossinline func: () -> Unit) {

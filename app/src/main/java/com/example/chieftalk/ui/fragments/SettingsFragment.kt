@@ -114,6 +114,7 @@ class SettingsFragment : Fragment() {
                 putUrlToDB(photoUrl){
                     binding.profileImage.downloadAndSetImage(photoUrl)
                     USER.photoUrl = photoUrl
+                    mainActivity.appDrawer.updateHeader()
                     showToast(getString(R.string.toast_data_updated))
                 }
             }
