@@ -78,7 +78,7 @@ class SettingsFragment : Fragment() {
         binding.settingsBio.text = USER.bio
         binding.settingsFullName.text = USER.fullName
         binding.settingsPhoneNumber.text = USER.phone
-        binding.settingsStatus.text = USER.status
+        binding.settingsStatus.text = USER.state
         binding.settingsUsername.text = USER.userName
         binding.profileImage.downloadAndSetImage(USER.photoUrl)
         binding.settingsBtnChangeUsername.setOnClickListener {

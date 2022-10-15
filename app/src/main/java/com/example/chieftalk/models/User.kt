@@ -11,10 +11,10 @@ data class User(
     var bio: String = "",
     @PropertyName("fullname")
     var fullName: String = "",
-    @PropertyName("status")
-    var status: String = "",
+    @PropertyName("state")
+    var state: String = "",
     @PropertyName("phone")
     var phone: String = "",
     @PropertyName("photoUrl")
-    var photoUrl: String = ""
+    var photoUrl: String = "empty"
 )
