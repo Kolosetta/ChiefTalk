@@ -1,6 +1,7 @@
 package com.example.chieftalk.ui.fragments
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
@@ -102,6 +103,28 @@ class SettingsFragment : Fragment() {
             .setRequestedSize(600, 600)
             .setCropShape(CropImageView.CropShape.OVAL)
             .start(mainActivity)
+    }
+
+    fun uploadUserPhoto(data: Intent?){
+        val uri = CropImage.getActivityResult(data).uri
+        val path = REF_STORAGE_ROOT.child(FOLDER_PROFILE_IMAGE).child(UID)
+        path.putFile(uri).addOnCompleteListener {
+            if (it.isSuccessful) {
+                path.downloadUrl.addOnCompleteListener { task ->
+                    if(task.isSuccessful){
+                        val photoUrl = task.result.toString()
+                        REF_DATABASE_ROOT.child(NODE_USERS).child(UID).child(CHILD_PHOTO_URL)
+                            .setValue(photoUrl).addOnCompleteListener { task2 ->
+                                if(task2.isSuccessful){
+                                    binding.profileImage.downloadAndSetImage(photoUrl)
+                                    showToast(getString(R.string.toast_data_updated))
+                                    USER.photoUrl = photoUrl
+                                }
+                            }
+                    }
+                }
+            }
+        }
     }
 
 

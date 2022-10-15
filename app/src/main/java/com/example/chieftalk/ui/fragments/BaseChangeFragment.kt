@@ -5,6 +5,7 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import com.example.chieftalk.MainActivity
 import com.example.chieftalk.R
+import com.example.chieftalk.utilits.hideKeyboard
 
 
 open class BaseChangeFragment : Fragment() {
@@ -26,7 +27,7 @@ open class BaseChangeFragment : Fragment() {
 
     override fun onStop() {
         super.onStop()
-        mainActivity.hideKeyboard()
+        hideKeyboard(mainActivity)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

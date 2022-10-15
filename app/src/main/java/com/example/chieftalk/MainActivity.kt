@@ -3,13 +3,12 @@ package com.example.chieftalk
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.example.chieftalk.activities.RegisterActivity
 import com.example.chieftalk.databinding.ActivityMainBinding
 import com.example.chieftalk.models.User
+import com.example.chieftalk.ui.fragments.SettingsFragment
 import com.example.chieftalk.ui.objects.AppDrawer
 import com.example.chieftalk.utilits.*
 import com.google.firebase.database.DataSnapshot
@@ -29,13 +28,10 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         initFireBase()
-    }
-
-    override fun onStart() {
-        super.onStart()
         initFields()
         initFunc()
     }
+
 
     private fun initFields() {
         toolBar = binding.mainToolbar
@@ -72,36 +68,9 @@ class MainActivity : AppCompatActivity() {
             && resultCode == Activity.RESULT_OK
             && data != null
         ) {
-            uploadUserPhoto(data)
+            (supportFragmentManager.findFragmentByTag("SETTINGS_FRAGMENT") as SettingsFragment)
+                .uploadUserPhoto(data)
         }
     }
 
-    private fun uploadUserPhoto(data: Intent?){
-        val uri = CropImage.getActivityResult(data).uri
-        val path = REF_STORAGE_ROOT.child(FOLDER_PROFILE_IMAGE).child(UID)
-        path.putFile(uri).addOnCompleteListener {
-            if (it.isSuccessful) {
-                path.downloadUrl.addOnCompleteListener { task ->
-                    if(task.isSuccessful){
-                        val photoUrl = task.result.toString()
-                        REF_DATABASE_ROOT.child(NODE_USERS).child(UID).child(CHILD_PHOTO_URL)
-                            .setValue(photoUrl).addOnCompleteListener { task2 ->
-                                if(task2.isSuccessful){
-                                    Toast.makeText(this,
-                                        getString(R.string.toast_data_updated),
-                                        Toast.LENGTH_SHORT).show()
-                                    USER.photoUrl = photoUrl
-                                }
-                            }
-                    }
-                }
-            }
-        }
-    }
-
-    fun hideKeyboard() {
-        val imm = this
-            .getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(window.decorView.windowToken, 0)
-    }
 }

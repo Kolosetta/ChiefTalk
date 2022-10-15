@@ -98,7 +98,7 @@ class AppDrawer(private val activity: AppCompatActivity, private val toolBar: To
                 ): Boolean {
                     when(position) {
                         7 -> activity.supportFragmentManager.beginTransaction()
-                            .replace(R.id.main_container, SettingsFragment.newInstance())
+                            .replace(R.id.main_container, SettingsFragment.newInstance(), "SETTINGS_FRAGMENT")
                             .addToBackStack(null)
                             .commit()
                     }
