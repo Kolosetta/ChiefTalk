@@ -80,6 +80,7 @@ class SettingsFragment : Fragment() {
         binding.settingsPhoneNumber.text = USER.phone
         binding.settingsStatus.text = USER.status
         binding.settingsUsername.text = USER.userName
+        binding.profileImage.downloadAndSetImage(USER.photoUrl)
         binding.settingsBtnChangeUsername.setOnClickListener {
             mainActivity.supportFragmentManager.beginTransaction()
                 .replace(R.id.main_container, ChangeUserNameFragment.newInstance(USER.userName))
@@ -107,21 +108,13 @@ class SettingsFragment : Fragment() {
 
     fun uploadUserPhoto(data: Intent?){
         val uri = CropImage.getActivityResult(data).uri
-        val path = REF_STORAGE_ROOT.child(FOLDER_PROFILE_IMAGE).child(UID)
-        path.putFile(uri).addOnCompleteListener {
-            if (it.isSuccessful) {
-                path.downloadUrl.addOnCompleteListener { task ->
-                    if(task.isSuccessful){
-                        val photoUrl = task.result.toString()
-                        REF_DATABASE_ROOT.child(NODE_USERS).child(UID).child(CHILD_PHOTO_URL)
-                            .setValue(photoUrl).addOnCompleteListener { task2 ->
-                                if(task2.isSuccessful){
-                                    binding.profileImage.downloadAndSetImage(photoUrl)
-                                    showToast(getString(R.string.toast_data_updated))
-                                    USER.photoUrl = photoUrl
-                                }
-                            }
-                    }
+        val pathInStorage = REF_STORAGE_ROOT.child(FOLDER_PROFILE_IMAGE).child(UID)
+        putImageToStorage(uri, pathInStorage){
+            getUrlFromStorage(pathInStorage){ photoUrl ->
+                putUrlToDB(photoUrl){
+                    binding.profileImage.downloadAndSetImage(photoUrl)
+                    USER.photoUrl = photoUrl
+                    showToast(getString(R.string.toast_data_updated))
                 }
             }
         }
