@@ -1,7 +1,11 @@
 package com.example.chieftalk.utilits
 
+import android.annotation.SuppressLint
+import android.app.Activity
 import android.net.Uri
+import android.provider.ContactsContract
 import android.util.Log
+import com.example.chieftalk.models.ContactUser
 import com.example.chieftalk.models.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
@@ -41,7 +45,7 @@ inline fun initUser(crossinline func: () -> Unit) {
             override fun onDataChange(snapshot: DataSnapshot) {
                 snapshot.getValue(User::class.java)?.let {
                     USER = it
-                    if(USER.userName.isEmpty()){
+                    if (USER.userName.isEmpty()) {
                         USER.userName = UID
                     }
                     //TODO временно решение, чтобы юзер точно инициалиировался раньше всего остального
@@ -49,8 +53,31 @@ inline fun initUser(crossinline func: () -> Unit) {
                     func()
                 }
             }
+
             override fun onCancelled(error: DatabaseError) {}
         })
+}
+
+@SuppressLint("Range")
+fun initContacts(activity: Activity) {
+    if (checkPermission(activity, READ_CONTACT)) {
+        val arrayContacts = arrayListOf<ContactUser>()
+        val cursor = activity.contentResolver.query(
+            ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, null
+        )
+        cursor?.let {
+            while (it.moveToNext()) {
+                val displayName =
+                    it.getString(it.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME))
+                val phone =
+                    it.getString(it.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
+                        .replace(Regex("[\\s-()]"), "").padStart(12, '+')
+                val newContact = ContactUser(fullName = displayName, phone = phone)
+                arrayContacts.add(newContact)
+            }
+        }
+        cursor?.close()
+    }
 }
 
 inline fun putImageToStorage(uri: Uri, path: StorageReference, crossinline func: () -> Unit) {

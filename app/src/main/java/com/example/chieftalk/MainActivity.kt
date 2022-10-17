@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
         initFireBase()
         initUser {
             CoroutineScope(Dispatchers.IO).launch {
-                initContacts()
+                initContacts(this@MainActivity)
             }
             initFields()
             initFunc()
@@ -53,11 +53,6 @@ class MainActivity : AppCompatActivity() {
         appDrawer = AppDrawer(this, toolBar)
     }
 
-    private fun initContacts() {
-        if (checkPermission(this, READ_CONTACT)) {
-            //Тут чтение контактов
-        }
-    }
 
     //TODO("Подумать над выносом проверки авторизации в Application")
     private fun initFunc() {
@@ -82,10 +77,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    //Срабатывает при изменении какого-либо permission
     override fun onRequestPermissionsResult(rcode: Int, perm: Array<out String>, result: IntArray) {
         super.onRequestPermissionsResult(rcode, perm, result)
         if (ContextCompat.checkSelfPermission(this, READ_CONTACT) == PackageManager.PERMISSION_GRANTED) {
-            initContacts()
+            initContacts(this)
         }
     }
 }
