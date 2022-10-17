@@ -2,12 +2,13 @@ package com.example.chieftalk
 
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import com.example.chieftalk.activities.RegisterActivity
 import com.example.chieftalk.databinding.ActivityMainBinding
-import com.example.chieftalk.models.User
 import com.example.chieftalk.ui.fragments.SettingsFragment
 import com.example.chieftalk.ui.objects.AppDrawer
 import com.example.chieftalk.utilits.*
@@ -28,7 +29,8 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         initFireBase()
-        initUser{
+        initUser {
+            initContacts()
             initFields()
             initFunc()
         }
@@ -49,17 +51,21 @@ class MainActivity : AppCompatActivity() {
         appDrawer = AppDrawer(this, toolBar)
     }
 
+    private fun initContacts() {
+        if (checkPermission(this, READ_CONTACT)) {
+            //Тут чтение контактов
+        }
+    }
+
     //TODO("Подумать над выносом проверки авторизации в Application")
     private fun initFunc() {
         if (AUTH.currentUser != null) {
             setSupportActionBar(toolBar)
-            println(USER.fullName)
             appDrawer.create()
         } else {
             replaceActivity(RegisterActivity::class.java)
         }
     }
-
 
 
     //Вызывается как результат CropPhoto Activity
@@ -74,4 +80,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onRequestPermissionsResult(rcode: Int, perm: Array<out String>, result: IntArray) {
+        super.onRequestPermissionsResult(rcode, perm, result)
+        if (ContextCompat.checkSelfPermission(this, READ_CONTACT) == PackageManager.PERMISSION_GRANTED) {
+            initContacts()
+        }
+    }
 }
