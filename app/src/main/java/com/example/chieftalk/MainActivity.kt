@@ -12,10 +12,10 @@ import com.example.chieftalk.databinding.ActivityMainBinding
 import com.example.chieftalk.ui.fragments.SettingsFragment
 import com.example.chieftalk.ui.objects.AppDrawer
 import com.example.chieftalk.utilits.*
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.ValueEventListener
 import com.theartofdev.edmodo.cropper.CropImage
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 class MainActivity : AppCompatActivity() {
@@ -30,7 +30,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         initFireBase()
         initUser {
-            initContacts()
+            CoroutineScope(Dispatchers.IO).launch {
+                initContacts()
+            }
             initFields()
             initFunc()
         }
