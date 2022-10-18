@@ -39,27 +39,29 @@ class EnterCodeFragment : Fragment() {
 
     private fun enterCode(id: String, code: String, phoneNumber: String) {
         val credential = PhoneAuthProvider.getCredential(id, code)
-        AUTH.signInWithCredential(credential).addOnCompleteListener{
-            if(it.isSuccessful){
+        AUTH.signInWithCredential(credential)
+            .addOnSuccessListener {
                 val uid = AUTH.currentUser?.uid.toString()
                 val dataMap = mutableMapOf<String, Any>()
                 dataMap[CHILD_ID] = uid
                 dataMap[CHILD_PHONE] = phoneNumber
                 dataMap[CHILD_USERNAME] = uid
-                REF_DATABASE_ROOT.child(NODE_USERS).child(uid).updateChildren(dataMap).addOnCompleteListener { task ->
-                    if(task.isSuccessful){
-                        showToast("Welcome")
-                        (requireActivity() as RegisterActivity).replaceActivity(MainActivity::class.java)
+                REF_DATABASE_ROOT.child(NODE_PHONES).child(phoneNumber).setValue(uid)
+                    .addOnSuccessListener {
+                        REF_DATABASE_ROOT.child(NODE_USERS).child(uid).updateChildren(dataMap)
+                            .addOnSuccessListener {
+                                showToast("Welcome")
+                                (requireActivity() as RegisterActivity).replaceActivity(MainActivity::class.java)
+                            }
+                            .addOnFailureListener {
+                                showToast(it.message.toString())
+                            }
+
                     }
-                    else {
-                        showToast(task.exception?.message.toString())
-                    }
-                }
             }
-            else{
-                showToast(it.exception?.message.toString())
+            .addOnFailureListener {
+                showToast(it.message.toString())
             }
-        }
     }
 
     companion object {
