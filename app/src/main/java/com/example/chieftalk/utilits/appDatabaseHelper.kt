@@ -21,6 +21,7 @@ lateinit var USER: User
 const val NODE_USERS = "users"
 const val NODE_USER_NAMES = "usernames"
 const val NODE_PHONES = "phones"
+const val NODE_PHONE_CONTACTS = "phone_contacts"
 
 const val FOLDER_PROFILE_IMAGE = "profile_images"
 
@@ -60,6 +61,7 @@ inline fun initUser(crossinline func: () -> Unit) {
 }
 
 @SuppressLint("Range")
+//Записывает в лист список всех локальных контактов из бд контактов курсором
 fun initContacts(activity: Activity) {
     if (checkPermission(activity, READ_CONTACT)) {
         val arrayContacts = arrayListOf<ContactUser>()
@@ -78,7 +80,27 @@ fun initContacts(activity: Activity) {
             }
         }
         cursor?.close()
+        updatePhoneToDatabase(arrayContacts)
     }
+}
+
+//Добавляет в базу Fb все контакты, зарегестрирвоанные в приложении
+fun updatePhoneToDatabase(arrayContacts: ArrayList<ContactUser>) {
+    REF_DATABASE_ROOT.child(NODE_PHONES).addListenerForSingleValueEvent(object : ValueEventListener{
+        override fun onDataChange(snapshot: DataSnapshot) {
+            snapshot.children.forEach{snap ->
+                arrayContacts.forEach{ contact ->
+                    if(snap.key == contact.phone){
+                        REF_DATABASE_ROOT.child(NODE_PHONE_CONTACTS).child(UID)
+                            .child(snap.value.toString())
+                            .child(CHILD_ID)
+                    }
+                }
+            }
+        }
+
+        override fun onCancelled(error: DatabaseError) {}
+    })
 }
 
 inline fun putImageToStorage(uri: Uri, path: StorageReference, crossinline func: () -> Unit) {
